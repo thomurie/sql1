@@ -1,0 +1,43 @@
+DROP DATABASE IF EXISTS league
+
+CREATE DATABASE league
+
+c\ league
+
+CREATE TABLE referees (
+    id SERIAL PRIMARY KEY,
+    ref_name TEXT NOT NULL
+)
+
+CREATE TABLE teams (
+    id SERIAL PRIMARY KEY,
+    team_name TEXT NOT NULL,
+    team_rank INT DEFAULT NULL FOREIGN KEY REFERENCES games
+)
+
+CREATE TABLE players (
+    id SERIAL PRIMARY KEY,
+    player_name TEXT NOT NULL,
+    team_id INT DEFAULT NULL FOREIGN KEY REFERENCES teams
+)
+
+CREATE TABLE goals (
+    id SERIAL PRIMARY KEY,
+    game_id INT NOT NULL FOREIGN KEY REFERENCES games,
+    player_id INT NOT NULL FOREIGN KEY REFERENCES players
+)
+
+CREATE TABLE games (
+    id SERIAL PRIMARY KEY,
+    team_1 INT NOT NULL FOREIGN KEY REFERENCES teams,
+    team_2 INT NOT NULL FOREIGN KEY REFERENCES teams,
+    season_id INT NOT NULL FOREIGN KEY REFERENCES seasons,
+    winner INT NOT NULL FOREIGN KEY REFERENCES teams,
+    referee INT NOT NULL FOREIGN KEY REFERENCES referees,
+)
+
+CREATE TABLE seasons (
+    id SERIAL PRIMARY KEY,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+)
